@@ -1,0 +1,22 @@
+app:
+  environment: "prod"
+
+
+server:
+  port: 8082
+
+spring:
+  application:
+    name: auth-switch-service
+    
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://auth-service:8081/.well-known/jwks.json
+          
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2.server.resource.authentication: TRACE
+    org.springframework.web: INFO

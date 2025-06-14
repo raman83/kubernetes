@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-switch-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-switch-service
+  template:
+    metadata:
+      labels:
+        app: auth-switch-service
+    spec:
+      containers:
+        - name: auth-switch-service
+          image: raman83/auth-switch-service:v1.0.0
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+          args:
+            - "--spring.config.additional-location=file:/config/"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: auth-switch-config
